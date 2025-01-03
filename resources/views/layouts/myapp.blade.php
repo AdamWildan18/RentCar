@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'RealRentCar') }}</title>
+    <title>{{ config('app.name', 'Cikal RentCar') }}</title>
     {{-- jquery --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- sweet alert --}}
@@ -30,21 +30,21 @@
                 <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl drop-shadow-2xl">
                     {{-- LOGO --}}
                     <a href="{{ route('home') }}" class="flex items-center">
-                        <img loading="lazy" src="/images/logos/LOGOtext.png" class="mr-3 h-12" alt="Flowbite Logo" />
+                        <img loading="lazy" src="/images/logos/duaputri.png" class="mr-3 h-12" alt="Flowbite Logo" />
                     </a>
 
                     {{-- login & Register buttons --}}
                     <div class="flex items-center  lg:order-2">
                         <a href="{{ route('login') }}">
                             <button type="button"
-                                class=" px-4 lg:px-5 py-2 lg:py-2.5 mr-2 text-white bg-gradient-to-br from-pr-400 to-pr-300 hover:bg-gradient-to-bl font-medium rounded-lg text-sm ">
+                                class=" px-4 lg:px-5 py-2 lg:py-2.5 mr-2 text-white bg-gradient-to-br from-red-700 to-red-400 hover:bg-gradient-to-bl font-medium rounded-lg text-sm ">
                                 login
                             </button>
 
                         </a>
                         <a href="{{ route('register') }}">
                             <button
-                                class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 ">
+                                class="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-500 to-red-700 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 ">
                                 <span
                                     class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-sec-600 dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                     Register
@@ -80,7 +80,7 @@
                                     <div class="group text-center">
                                         <div class="group-hover:cursor-pointer">Home</div>
                                         <div
-                                            class="block invisible bg-pr-400 w-12 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                            class="block invisible bg-red-400 w-12 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                         </div>
                                 </a>
                             </li>
@@ -89,7 +89,7 @@
                                     <div class="group text-center">
                                         <div class="group-hover:cursor-pointer">Cars</div>
                                         <div
-                                            class="block invisible bg-pr-400 w-8 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                            class="block invisible bg-red-400 w-8 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                         </div>
                                 </a>
                             </li>
@@ -98,7 +98,7 @@
                                     <div class="group text-center">
                                         <div class="group-hover:cursor-pointer">Location</div>
                                         <div
-                                            class="block invisible bg-pr-400 w-16 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                            class="block invisible bg-red-400 w-16 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                         </div>
                                 </a>
                             </li>
@@ -107,7 +107,7 @@
                                     <div class="group text-center">
                                         <div class="group-hover:cursor-pointer">Contact Us</div>
                                         <div
-                                            class="block invisible bg-pr-400 w-20 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                            class="block invisible bg-red-400 w-20 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                         </div>
                                 </a>
                             </li>
@@ -137,7 +137,7 @@
                                         <div class="group text-center">
                                             <div class="group-hover:cursor-pointer">Dashboard</div>
                                             <div
-                                                class="block invisible bg-pr-400 w-20 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                                class="block invisible bg-red-400 w-20 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                             </div>
                                     </a>
 
@@ -148,7 +148,7 @@
                                         <div class="group text-center">
                                             <div class="group-hover:cursor-pointer ">Cars</div>
                                             <div
-                                                class="block invisible bg-pr-400 w-8 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                                class="block invisible bg-red-400 w-8 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                             </div>
                                     </a>
                                 </li>
@@ -157,7 +157,7 @@
                                         <div class="group text-center">
                                             <div class="group-hover:cursor-pointer">Users</div>
                                             <div
-                                                class="block invisible bg-pr-400 w-10 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                                class="block invisible bg-red-400 w-10 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                             </div>
                                     </a>
                                 </li>
@@ -165,7 +165,7 @@
                             </ul>
                         </div>
                         <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                            class="text-black bg-pr-400 hover:bg-pr-600 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center "
+                            class="text-black bg-red-400 hover:bg-pr-600 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center "
                             type="button">
                             <img loading="lazy" src="/images/user.png" width="24" alt="user icon" class="mr-3">
                             <p> Admin ( {{ Auth::user()->name }} ) </p>
@@ -208,7 +208,7 @@
                                         <div class="group text-center">
                                             <div class="group-hover:cursor-pointer">Home</div>
                                             <div
-                                                class="block invisible bg-pr-400 w-12 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                                class="block invisible bg-red-400 w-12 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                             </div>
                                         </div>
                                     </a>
@@ -221,7 +221,7 @@
                                         <div class="group text-center">
                                             <div class="group-hover:cursor-pointer">Cars</div>
                                             <div
-                                                class="block invisible bg-pr-400 w-8 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                                class="block invisible bg-red-400 w-8 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                             </div>
                                         </div>
                                     </a>
@@ -231,7 +231,7 @@
                                         <div class="group text-center">
                                             <div class="group-hover:cursor-pointer">Location</div>
                                             <div
-                                                class="block invisible bg-pr-400 w-16 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                                class="block invisible bg-red-400 w-16 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                             </div>
                                     </a>
                                 </li>
@@ -240,7 +240,7 @@
                                         <div class="group text-center">
                                             <div class="group-hover:cursor-pointer">Contact Us</div>
                                             <div
-                                                class="block invisible bg-pr-400 w-20 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
+                                                class="block invisible bg-red-400 w-20 h-1 rounded-md text-center -bottom-1 mx-auto relative group-hover:visible">
                                             </div>
                                     </a>
                                 </li>
@@ -249,7 +249,7 @@
                         </div>
 
                         <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                            class="text-black bg-pr-400 hover:bg-pr-600 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center "
+                            class="text-black bg-red-400 hover:bg-pr-600 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center "
                             type="button">
                             <img loading="lazy" src="/images/user.png" width="24" alt="user icon" class="mr-3">
                             {{ Auth::user()->name }}
