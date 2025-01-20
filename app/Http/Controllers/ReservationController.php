@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\Reservation;
-use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class ReservationController extends Controller
 {
@@ -25,7 +27,22 @@ class ReservationController extends Controller
     {
         $user = auth()->user();
         $car = Car::find($car_id);
-        return view('reservation.create', compact('car', 'user'));
+
+        $reservedDates = Reservation::where('car_id', $car_id)
+            ->where('status', 'Reserved')
+            ->get(['start_date', 'end_date'])
+            ->flatMap(function ($reservation) {
+                // Ambil rentang tanggal dari start_date hingga end_date untuk setiap reservasi
+                return Carbon::parse($reservation->start_date)->toPeriod(
+                    Carbon::parse($reservation->end_date), '1 day'
+                )->toArray();
+            })
+            ->map(function ($date) {
+                return Carbon::parse($date)->format('Y-m-d'); // Format tanggal ke Y-m-d
+            })
+            ->toArray();
+
+        return view('reservation.create', compact('car', 'user', 'reservedDates'));
     }
 
     /**
@@ -33,19 +50,37 @@ class ReservationController extends Controller
      */
     public function store(Request $request, $car_id)
     {
-        // dd($request->all());
         $request->validate([
             'full-name' => 'required|string|max:255',
             'email' => 'required|email',
             'reservation_dates' => 'required',
+            'ktp' => 'required',
         ]);
-
 
         $car = Car::find($car_id);
         $user = Auth::user();
 
-        $start = Carbon::parse($request->start_date);
-        $end = Carbon::parse($request->end_date);
+        // Extract start and end dates
+        $reservation_dates = explode(' to ', $request->reservation_dates);
+        $start = Carbon::parse($reservation_dates[0]);
+        $end = Carbon::parse($reservation_dates[1]);
+
+        // Check car availability (only check 'reserved' status)
+        $isReserved = Reservation::where('car_id', $car_id)
+            ->where('status', 'Reserved')
+            ->where(function ($query) use ($start, $end) {
+                $query->whereBetween('start_date', [$start, $end])
+                      ->orWhereBetween('end_date', [$start, $end])
+                      ->orWhere(function ($query) use ($start, $end) {
+                          $query->where('start_date', '<=', $start)
+                                ->where('end_date', '>=', $end);
+                      });
+            })
+            ->exists();
+
+        if ($isReserved) {
+            return redirect()->back()->with('error', 'The car is not available for the selected dates.');
+        }
 
         // Check if the user has more than 2 reservations
         $userReservationsCount = Reservation::where('user_id', $user->id)->count();
@@ -53,29 +88,23 @@ class ReservationController extends Controller
             return redirect()->back()->with('error', 'You cannot have more than 2 active reservations 😉.');
         }
 
-        // extract start and end date from the request
-        $reservation_dates = explode(' to ', $request->reservation_dates);
-        $start = Carbon::parse($reservation_dates[0]);
-        $end = Carbon::parse($reservation_dates[1]);
-
+        // Create a new reservation
         $reservation = new Reservation();
         $reservation->user()->associate($user);
         $reservation->car()->associate($car);
         $reservation->start_date = $start;
         $reservation->end_date = $end;
-        $reservation->days = $start->diffInDays($end);
+        $reservation->days = $start->diffInDays($end) + 1; // Include end date
         $reservation->price_per_day = $car->price_per_day;
         $reservation->total_price = $reservation->days * $reservation->price_per_day;
-        $reservation->status = 'Pending';
+        $reservation->status = 'Reserved';
         $reservation->payment_method = 'At store';
         $reservation->payment_status = 'Pending';
         $reservation->save();
 
-        $car->status = 'Reserved';
-        $car->save();
-
-        return view('thankyou',['reservation'=>$reservation] );
+        return view('thankyou', ['reservation' => $reservation]);
     }
+
 
     /**
      * Display the specified resource.
@@ -142,5 +171,76 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         //
+    }
+
+    public function payment(Request $request, $reservation_id)
+    {
+        $reservation = Reservation::findOrFail($reservation_id);
+        $user = $reservation->user;
+
+        // Konfigurasi Midtrans
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_ENV') === 'production';
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        // Detail pembayaran
+        $transaction_details = [
+            'order_id' => 'ORDER-' . $reservation->id,
+            'gross_amount' => $reservation->total_price, // Sesuaikan jumlah DP yang dibayar
+        ];
+
+        // Item detail (bisa berisi informasi lebih lanjut tentang produk)
+        $items = [
+            [
+                'id' => 'car-' . $reservation->car_id,
+                'price' => $reservation->total_price,
+                'quantity' => 1,
+                'name' => $reservation->car->brand . ' ' . $reservation->car->model,
+            ],
+        ];
+
+        // Data pelanggan
+        $customer_details = [
+            'first_name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone, // Sesuaikan jika ada field phone di User
+        ];
+
+        // Membuat transaksi Midtrans
+        $midtrans_transaction = [
+            'payment_type' => 'credit_card', // Atau sesuaikan dengan metode pembayaran yang diinginkan
+            'transaction_details' => $transaction_details,
+            'item_details' => $items,
+            'customer_details' => $customer_details,
+        ];
+
+        try {
+            // Mendapatkan URL pembayaran dari Midtrans
+            $snapToken = Snap::getSnapToken($midtrans_transaction);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Pembayaran gagal: ' . $e->getMessage());
+        }
+
+        return view('payment.midtrans', compact('snapToken'));
+    }
+
+    public function paymentCallback(Request $request)
+    {
+        $status = $request->input('status_code');
+        $order_id = $request->input('order_id');
+        $reservation = Reservation::where('id', substr($order_id, 6))->first();
+
+        if ($status == '200') {
+            // Pembayaran berhasil
+            $reservation->payment_status = 'Paid';
+            $reservation->save();
+            return redirect()->route('reservation.success');
+        } else {
+            // Pembayaran gagal
+            $reservation->payment_status = 'Failed';
+            $reservation->save();
+            return redirect()->route('reservation.failed');
+        }
     }
 }

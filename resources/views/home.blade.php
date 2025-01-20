@@ -1,40 +1,14 @@
 @extends('layouts.myapp')
 @section('content')
     <main>
-
-
-
-        <div class="bg-sec-100 ">
-            {{-- hero --}}
-            <div class="flex justify-center md:py-28 py-12 mx-auto max-w-screen-xl">
-                <div class="flex  flex-col justify-center md:w-3/5  mx-12 md:ms-20 md:mx-0">
-                    <h1 class=" md:text-start text-center  font-car font-bold text-gray-900 mb-8  md:text-7xl text-4xl "><span class="text-red-700"> Cara Mudah
-                        </span>dan
-                        Cepat Sewa Mobil</h1>
-                    <div class="md:w-3/5 md:hidden  ">
-                        <img loading="lazy" src="/images/home car.png" alt="home car">
-                    </div>
-                    <p class="text-justify md:mx-0 mx-8 ">Baik Anda merencanakan liburan akhir pekan atau petualangan lintas Kota, kami siap membantu Anda. Dengan beragam pilihan kendaraan dan sistem pemesanan yang mudah, menyewa mobil tidak pernah semudah ini.</p>
-                    <div class="flex justify-center md:justify-start mt-12 md:w-2/3 me-12 md:-ms-12">
-                        <a href="/cars">
-                            <button
-                                class="bg-red-700 p-2 border-2 border-white rounded-md text-white hover:bg-red-500 w-32 md:me-12 md:mx-12 mx-7 font-bold ">CARS</button>
-                        </a>
-                        <a href="/contact_us">
-                            <button class="border-2 border-red-400 text-black w-32 p-2 rounded-md hover:bg-sec-400">CONTACT
-                                US</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="md:w-3/5 hidden md:block  ">
-                    <img loading="lazy" src="/images/home car.png" alt="home car">
-                </div>
-
+        <div class="bg-sec-100">
+             <!-- Hero Section -->
+            <div class="hero">
+                <img src="/images/rentcar.jpg" alt="Car rental" class="hero-img">
             </div>
+            <!-- End Hero Section -->
 
             {{-- Cars Section --}}
-
-
             <div class="mx-auto max-w-screen-xl">
                 <div class="flex align-middle justify-center">
                     <hr class=" mt-8 h-0.5 w-2/5 bg-red-500">
@@ -65,14 +39,13 @@
                         <div class="mt-4 px-5 pb-5">
                             <div >
                                 <h5 class=" font-bold text-xl tracking-tight text-slate-900">{{ $car->brand }}
-                                    {{ $car->model }}
-                                    {{ $car->engine }}</h5>
+                                    {{ $car->model }}</h5>
                             </div>
-                            <div class="mt-2 mb-5 flex items-center justify-between">
+                            <div class="mt-2 mb-5 flex flex-col items-start justify-between">
                                 <p>
-                                    <span class="text-3xl font-bold text-slate-900">{{ $car->price_per_day }}</span>
+                                    <span class="text-3xl font-bold text-slate-900">Rp.{{ number_format($car->price_per_day, 0, ',', '.') }}</span>
                                     <span
-                                        class="text-sm text-slate-900 line-through">{{ intval(($car->price_per_day * 100) / (100 - $car->reduce)) }}
+                                        class="text-sm text-slate-900 line-through"> Rp.{{ number_format(($car->price_per_day * 100) / (100 - $car->reduce), 0, ',', '.') }}
                                     </span>
                                 </p>
 
@@ -87,6 +60,24 @@
                                     @endfor
                                     <span
                                         class="mr-2 ml-3 rounded bg-red-700 px-2.5 py-0.5 text-xs font-semibold">{{ $car->stars }}.0</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="col-3 me-2 flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                        </svg>{{ $car->passenger }}
+                                    </div>
+                                    <div class="col-3 me-2 flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                                            <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3zm1 13h8V2H4z"/>
+                                            <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0"/>
+                                        </svg>{{ $car->door }}
+                                    </div>
+                                    <div class="col-3 me-2 flex items-center">
+                                        <svg fill="#ff0000" height="16" width="16" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <polygon points="360.55,131.774 360.55,239.304 272.696,239.304 272.696,131.774 239.304,131.774 239.304,239.304 151.45,239.304 151.45,131.774 118.058,131.774 118.058,380.227 151.45,380.227 151.45,272.696 239.304,272.696 239.304,380.227 272.696,380.227 272.696,272.696 393.942,272.696 393.942,131.774 "></polygon> </g> </g> <g> <g> <path d="M437.02,74.98C388.667,26.628,324.38,0,256,0S123.333,26.628,74.98,74.98C26.628,123.333,0,187.619,0,256 s26.628,132.667,74.98,181.02C123.333,485.372,187.62,512,256,512s132.667-26.628,181.02-74.98 C485.372,388.667,512,324.381,512,256S485.372,123.333,437.02,74.98z M256,478.609c-122.746,0-222.609-99.862-222.609-222.609 S133.254,33.391,256,33.391S478.609,133.254,478.609,256S378.746,478.609,256,478.609z"></path> </g> </g> <g> <g> <path d="M393.775,351.234c5.845-4.11,9.315-11.05,9.315-18.539c0-11.05-9.133-22.466-21.826-22.466h-29.771v64.838h17.808v-19.907 h6.666l12.329,19.908h20.09L393.775,351.234z M380.534,339.636h-11.233v-13.881h10.776c2.192,0,4.932,2.465,4.932,6.94 C385.008,337.079,382.726,339.636,380.534,339.636z"></path> </g> </g> </g></svg>
+
+                                          {{ $car->gear }}
+                                    </div>
                                 </div>
                             </div>
                             <a href="{{ route('car.reservation', ['car' => $car->id]) }}"

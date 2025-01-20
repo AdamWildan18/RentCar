@@ -1,0 +1,21 @@
+/* Gaya umum untuk hero section */
+.hero {
+    width: 100%;
+    height: auto; /* Menghindari tinggi statis */
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Memastikan gambar tetap utuh dan tidak terpotong */
+    object-position: center; /* Memastikan gambar tetap terpusat */
+}
+
+/* Media Query untuk Mobile */
+@media screen and (max-width: 768px) {
+    .hero {
+        height: auto; /* Menghindari kekosongan di mobile */
+    }
+}

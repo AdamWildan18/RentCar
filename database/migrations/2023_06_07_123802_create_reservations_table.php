@@ -22,11 +22,12 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('days');
-            $table->decimal('price_per_day', 10, 2);
-            $table->decimal('total_price');
+            $table->bigInteger('price_per_day');
+            $table->bigInteger('total_price');
             $table->string('status')->default('active');
             $table->string('payment_method');
             $table->string('payment_status')->default('pending');
+            $table->string('ktp')->nullable();
             $table->timestamps();
         });
     }

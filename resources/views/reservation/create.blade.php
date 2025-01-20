@@ -13,11 +13,11 @@
                     <h3 class="font-car text-gray-500 text-2xl">Price:</h3>
                     <p>
                         <span
-                            class=" text-3xl font-bold text-pr-400 ms-3 me-1 border border-pr-400 p-2 rounded-md">{{ $car->price_per_day }}
-                            $</span>
+                            class=" text-3xl font-bold text-red-700 ms-3 me-1 border border-red-400 p-2 rounded-md">Rp.{{ $car->price_per_day }}
+                            </span>
                         <span
-                            class="text-lg font-medium text-red-500 line-through">{{ intval(($car->price_per_day * 100) / (100 - $car->reduce)) }}
-                            $
+                            class="text-lg font-medium text-red-500 line-through">Rp.{{ intval(($car->price_per_day * 100) / (100 - $car->reduce)) }}
+
                         </span>
                     </p>
                 </div>
@@ -42,7 +42,7 @@
                                     Name</label>
                                 <div class="mt-2">
                                     <input type="text" name="full-name" id="full-name" value="{{ $user->name }}"
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-400 sm:text-sm sm:leading-6">
                                 </div>
                                 @error('name')
                                     <span class="text-red-500">{{ $message }}</span>
@@ -54,24 +54,41 @@
                                     class="block text-sm font-medium leading-6 text-gray-900">Email</label>
                                 <div class="mt-2">
                                     <input type="text" name="email" id="email" value="{{ $user->email }}"
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-400 sm:text-sm sm:leading-6">
                                 </div>
                                 @error('email')
                                     <span class="text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="ktp"
+                                    class="block text-sm font-medium leading-6 text-gray-900">Foto KTP</label>
+                                <div class="mt-2">
+                                    <input type="file" name="ktp" id="ktp"
+                                        class="">
+                                </div>
+                                @error('ktp')
+                                    <span class="text-red-500">{{ $message }}</span>
+                                @enderror
+                            </div>
                             {{-- New Date Input --}}
                             <div class="sm:col-span-full">
-                                <label for="reservation"
-                                    class="block text-sm font-medium leading-6 text-gray-900">Reservation
-                                    Dates</label>
-                                <x-flatpickr range id="laravel-flatpickr" name="reservation_dates" class="w-full rounded-md"
-                                    placeholder="Reservation Dates" />
+                                <label for="reservation" class="block text-sm font-medium leading-6 text-gray-900">Reservation Dates</label>
+                                <x-flatpickr range id="laravel-flatpickr" name="reservation_dates" class="w-full rounded-md" placeholder="Reservation Dates" />
                             </div>
+                            <div class="sm:col-span-full">
+                                <label for="metode pembayaran" class="block text-sm font-medium leading-6 text-gray-900">Metode Pembayaran</label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" id="dp-checkbox" class="form-checkbox h-5 w-5 text-blue-600 border-gray-300 rounded" value="1" name="payment_method">
+                                    <label for="dp-checkbox" class="text-sm text-gray-700">Bayar DP</label>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="mt-12 md:block hidden  ">
                             <button type="submit"
-                                class="text-white bg-pr-400 p-3 w-full rounded-lg font-bold hover:bg-black shadow-xl hover:shadow-none ">Order
+                                class="text-white bg-red-400 p-3 w-full rounded-lg font-bold hover:bg-black shadow-xl hover:shadow-none ">Order
                                 Now</button>
                         </div>
                     </form>
@@ -117,8 +134,8 @@
 
                 <div class=" w-full   mt-8 ms-8">
                     <p id="total-price" class="font-car text-gray-600 text-lg ms-2">Estimated Price: <span
-                            class="mx-2 font-car text-md font-medium text-gray-700 border border-pr-400 p-2 rounded-md "> --
-                            $</span>
+                            class="mx-2 font-car text-md font-medium text-gray-700 border border-pr-400 p-2 rounded-md ">Rp. --
+                            </span>
                     </p>
                 </div>
                 <div id="mobile_submit_button" class="mt-12 w-full md:hidden  ">
@@ -157,6 +174,16 @@
 
     <script>
         $(document).ready(function() {
+            var reservedDates = @json($reservedDates); // Mendapatkan tanggal yang sudah dipesan dari controller
+
+            // Menambahkan satu hari setelah setiap endDate dalam reservedDates untuk dinonaktifkan
+            reservedDates.forEach(function(dateRange) {
+                var endDate = new Date(dateRange[1]); // Mengambil tanggal akhir dari rentang
+                var nextDay = new Date(endDate);
+                nextDay.setDate(endDate.getDate() + 1); // Menambah satu hari setelah endDate
+                reservedDates.push(nextDay.toISOString().split('T')[0]); // Menambahkan tanggal setelah endDate ke array
+            });
+
             var flatpickrElement = document.getElementById('laravel-flatpickr');
 
             if (flatpickrElement && flatpickrElement._flatpickr) {
@@ -170,21 +197,75 @@
                             var pricePerDay = {{ $car->price_per_day }};
                             var totalPrice = duration * pricePerDay;
                             $('#duration span').text(duration + ' days');
-                            $('#total-price span').text(totalPrice + ' $');
+                            $('#total-price span').text('Rp.' + totalPrice + '' );
                         } else {
                             $('#duration span').text('-- days');
-                            $('#total-price span').text('-- $');
+                            $('#total-price span').text('Rp --');
                         }
                     } else {
                         $('#duration span').text('-- days');
-                        $('#total-price span').text('-- $');
+                        $('#total-price span').text('Rp. --');
                     }
                 });
-            }
 
-            document.getElementById("mobile_submit_button").addEventListener("click", function() {
-                document.getElementById("reservation_form").submit();
-            });
+                // Menonaktifkan tanggal yang sudah dipesan dan tanggal sebelum hari ini
+                flatpickrElement._flatpickr.config.disable = reservedDates;
+
+                // Menetapkan minDate untuk menonaktifkan tanggal di bawah hari ini
+                flatpickrElement._flatpickr.config.minDate = "today";
+            }
         });
     </script>
+
+    <script>
+        const orderButton = document.querySelector('button[type="submit"]');
+
+        orderButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah pengiriman form langsung
+
+            // Tentukan jumlah pembayaran tetap (Rp 50.000)
+            const fixedPrice = 50000; // Jumlah tetap yang ingin dikirim ke Midtrans
+
+            // Kirimkan permintaan ke backend untuk mendapatkan snap_token
+            fetch("{{ route('midtrans.charge') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    gross_amount: fixedPrice, // Kirimkan jumlah tetap (Rp 50.000)
+                    name: '{{ $user->name }}',
+                    email: '{{ $user->email }}',
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.snap_token) {
+                    // Setelah menerima snap_token, panggil pop-up Midtrans
+                    snap.pay(data.snap_token, {
+                        onSuccess: function(result) {
+                            alert("Pembayaran berhasil!");
+                            // Kirim hasil ke server untuk memperbarui status pembayaran
+                        },
+                        onPending: function(result) {
+                            alert("Pembayaran tertunda.");
+                        },
+                        onError: function(result) {
+                            alert("Pembayaran gagal.");
+                        }
+                    });
+                } else {
+                    alert("Terjadi kesalahan, coba lagi.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan saat memproses pembayaran.");
+            });
+        });
+
+
+    </script>
+
 @endsection

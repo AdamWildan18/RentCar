@@ -33,18 +33,54 @@
                             @enderror
                         </div>
 
-                        <div class="sm:col-span-2 sm:col-start-1">
-                            <label for="engine" class="block text-sm font-medium leading-6 text-gray-900">Engine</label>
+                        <div class="sm:col-span-3 sm:col-start-1">
+                            <label for="passenger" class="block text-sm font-medium leading-6 text-gray-900">Kapasitas</label>
                             <div class="mt-2">
-                                <input type="text" name="engine" id="engine"
+                                <input type="text" name="passenger" id="passenger"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
                             </div>
-                            @error('engine')
+                            @error('passenger')
                                 <span class="text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <div class="sm:col-span-2">
+                        {{-- <div class="sm:col-span-3">
+                            <label for="baggage" class="block text-sm font-medium leading-6 text-gray-900">Bagasi</label>
+                            <div class="mt-2">
+                                <input type="text" name="baggage" id="baggage"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                            </div>
+                            @error('baggage')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div> --}}
+
+                        <div class="sm:col-span-3">
+                            <label for="door" class="block text-sm font-medium leading-6 text-gray-900">Pintu</label>
+                            <div class="mt-2">
+                                <input type="text" name="door" id="door"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pr-400 sm:text-sm sm:leading-6">
+                            </div>
+                            @error('door')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="sm:col-span-3 sm:col-start-1">
+                            <label for="gear" class="block text-sm font-medium leading-6 text-gray-900">Transmisi</label>
+                            <div class="mt-2">
+                                <select name="gear" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-400 sm:text-sm sm:leading-6">
+                                    <option value="">-- Pilih Transmisi --</option>
+                                    <option value="Manual">Manual</option>
+                                    <option value="Automatic">Automatic</option>
+                                </select>
+                            </div>
+                            @error('gear')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="sm:col-span-3">
                             <label for="quantity" class="block text-sm font-medium leading-6 text-gray-900">Quantity</label>
                             <div class="mt-2">
                                 <input type="text" name="quantity" id="quantity"
@@ -55,7 +91,7 @@
                             @enderror
                         </div>
 
-                        <div class="sm:col-span-2">
+                        <div class="sm:col-span-3 sm:col-start-1">
                             <label for="price_per_day" class="block text-sm font-medium leading-6 text-gray-900">Price per
                                 day</label>
                             <div class="mt-2">

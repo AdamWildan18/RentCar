@@ -11,9 +11,22 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- sweet alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- father-icon --}}
+    <script src="https://unpkg.com/feather-icons"></script>
     @include('flatpickr::components.style')
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    {{-- midtrans --}}
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+
+
+
     <style>
         html {
             scroll-behavior: smooth;
@@ -26,7 +39,7 @@
     {{-- -------------------------------------------------------------- Header -------------------------------------------------------------- --}}
     @guest
         <header>
-            <nav class="bg-sec-600 border-gray-200 px-4 lg:px-6 py-4 dark:bg-gray-800 ">
+            <nav class="bg-sec-600 border-gray-200 px-4 lg:px-6 py-4 dark:bg-gray-800 fixed top-0 w-full z-50">
                 <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl drop-shadow-2xl">
                     {{-- LOGO --}}
                     <a href="{{ route('home') }}" class="flex items-center">
@@ -123,7 +136,7 @@
                 <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     {{-- LOGO --}}
                     <a href="{{ route('home') }}" class="flex items-center">
-                        <img loading="lazy" src="/images/logos/LOGOtext.png" class="mr-3 h-12" alt="Flowbite Logo" />
+                        <img loading="lazy" src="/images/logos/duaputri.png" class="mr-3 h-12" alt="Flowbite Logo" />
                     </a>
 
                     {{-- Dropdown button --}}
@@ -249,7 +262,7 @@
                         </div>
 
                         <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                            class="text-black bg-red-400 hover:bg-pr-600 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center "
+                            class="text-black bg-red-400 hover:bg-red-600 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center "
                             type="button">
                             <img loading="lazy" src="/images/user.png" width="24" alt="user icon" class="mr-3">
                             {{ Auth::user()->name }}
@@ -268,11 +281,11 @@
 
                                 <li>
                                     <a href="{{ route('clientReservation') }}"
-                                        class="block px-4 py-2 hover:bg-pr-200 ">Reservations</a>
+                                        class="block px-4 py-2 hover:bg-red-200 ">Reservations</a>
                                 </li>
 
                                 <li>
-                                    <a class="block px-4 py-2 hover:bg-pr-200 " href="{{ route('logout') }}"
+                                    <a class="block px-4 py-2 hover:bg-red-200 " href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -312,7 +325,7 @@
     @endguest
 
     {{-- --------------------------------------------------------------- Main  --------------------------------------------------------------- --}}
-    <main>
+    <main  class="pt-16">
         @yield('content')
     </main>
     {{-- --------------------------------------------------------------- Footer  --------------------------------------------------------------- --}}
@@ -326,7 +339,7 @@
                 <div class="md:flex md:justify-between">
                     <div class="mb-12 md:mb-0 flex justify-center ">
                         <a href="" class="flex items-center">
-                            <img loading="lazy" src="/images/logos/LogoTextDark.png" class="mr-3 h-24"
+                            <img loading="lazy" src="/images/logos/duaputri.png" class="mr-3 h-24"
                                 alt="Logo" />
                         </a>
                     </div>
@@ -404,7 +417,7 @@
                                 <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                 <style>
                                     svg {
-                                        fill: #ea9800
+                                        fill: #ea0000
                                     }
                                 </style>
                                 <path

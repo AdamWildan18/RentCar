@@ -4,7 +4,7 @@
         <div class="">
             <div class="my-6 py-6 px-4 bg-white rounded-md flex justify-start items-center flex-wrap md:flex-nowrap gap-y-4 md:gap-y-0">
                 <div class="flex justify-center w-1/2 md:w-1/4">
-                    <img loading="lazy" class="w-44 h-44 rounded-full border-2 border-pr-400 shadow-lg shadow-pr-400/50"
+                    <img loading="lazy" class="w-44 h-44 rounded-full border-2 border-red-700 shadow-lg shadow-red-400/50"
                         src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}">
                 </div>
                 <div class="w-1/2 md:w-1/4">

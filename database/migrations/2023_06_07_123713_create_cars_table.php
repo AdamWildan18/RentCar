@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('brand');
             $table->string('model');
-            $table->string('engine');
-            $table->decimal('price_per_day', 8, 2);
+            $table->integer('passenger');
+            $table->integer('door');
+            $table->enum('gear', ['Manual', 'Automatic']);
+            $table->bigInteger('price_per_day');
             $table->string('image')->nullable();
             $table->string('quantity');
             $table->string('status')->default('available');

@@ -1,19 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\CarController;
-use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\clientCarController;
-use App\Http\Controllers\adminDashboardController;
-use App\Http\Controllers\usersController;
 use App\Http\Controllers\addNewAdminController;
-use App\Http\Controllers\invoiceController;
 use App\Http\Controllers\AdminAuth\LoginController;
+use App\Http\Controllers\adminDashboardController;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\carSearchController;
-use App\Models\User;
+use App\Http\Controllers\clientCarController;
+use App\Http\Controllers\invoiceController;
+use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\usersController;
 use App\Models\Car;
 use App\Models\Reservation;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 
 
 // ------------------- guest routes --------------------------------------- //
@@ -107,6 +109,9 @@ Route::get('/reservations', function () {
 
 route::get('invoice/{reservation}', [invoiceController::class, 'invoice'])->name('invoice')->middleware('auth', 'restrictAdminAccess');
 
+Route::post('/midtrans/charge', [MidtransController::class, 'charge'])->name('midtrans.charge');
+// Route::get('reservation/{reservation_id}/payment', [ReservationController::class, 'payment'])->name('payment');
+// Route::post('payment/callback', [ReservationController::class, 'paymentCallback'])->name('payment.callback');
 
 //---------------------------------------------------------------------------//
 

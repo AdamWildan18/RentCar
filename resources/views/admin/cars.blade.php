@@ -20,13 +20,19 @@
                             Image
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            brand
+                            Brand
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            model
+                            Model
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            engine
+                            Kapasitas
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Pintu
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Transmisi
                         </th>
                         <th scope="col" class="px-6 py-3">
                             price_per_day
@@ -34,7 +40,7 @@
                         <th scope="col" class="px-6 py-3">
                             quantity
                         </th>
-                        
+
                         <th scope="col" class="px-6 py-3">
                             reserved
                         </th>
@@ -62,7 +68,13 @@
                                 {{ $car->model }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $car->engine }}
+                                {{ $car->passenger }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $car->door }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $car->gear }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $car->price_per_day }}
@@ -70,7 +82,7 @@
                             <td class="px-6 py-4">
                                 {{ $car->quantity }}
                             </td>
-                            
+
                             <td class="px-6 py-4">
                                 {{ $car->status }}
                             </td>
